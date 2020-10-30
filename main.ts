@@ -259,15 +259,38 @@ let sideOrientation = sprites.create(img`
 tiles.placeOnTile(sideOrientation, tiles.getTileLocation(10, 9))
 resetBox()
 forever(function () {
+    box.setFlag(SpriteFlag.Ghost, false)
     if (box.overlapsWith(pinkButton)) {
         game.showLongText("Length: " + boxLength + "                 Width: " + boxWidth + "                 Height: " + boxHeight + "                 Weight: " + objectWeight, DialogLayout.Center)
         game.showLongText("Material: " + objectMaterial, DialogLayout.Center)
         box.setFlag(SpriteFlag.Ghost, true)
+        if (objectMaterial == "Porcelain") {
+            tiles.setTileAt(tiles.getTileLocation(4, 7), sprites.vehicle.roadHorizontal)
+            tiles.setTileAt(tiles.getTileLocation(6, 7), sprites.vehicle.roadHorizontal)
+        } else if (objectMaterial == "Rubber") {
+            tiles.setTileAt(tiles.getTileLocation(4, 7), sprites.vehicle.roadHorizontal)
+            tiles.setTileAt(tiles.getTileLocation(6, 7), myTiles.tile2)
+        } else {
+            tiles.setTileAt(tiles.getTileLocation(4, 7), myTiles.tile2)
+        }
+        pause(1000)
+    }
+    if (box.tileKindAt(TileDirection.Center, myTiles.tile2)) {
+        box.setVelocity(0, 25)
+    }
+    if (box.tileKindAt(TileDirection.Bottom, sprites.dungeon.chestClosed)) {
+        box.setVelocity(0, 0)
+        pause(1000)
+        resetBox()
     }
     if (box.overlapsWith(blueButton)) {
-        game.showLongText("Orientation: " + orientation, DialogLayout.Center)
-    }
-    if (objectMaterial == "Porcelain") {
-        box.setVelocity(0, 10)
+        if (orientation == 0) {
+            game.showLongText("Orientation: " + "Sideways", DialogLayout.Center)
+        } else {
+            game.showLongText("Orientation: " + "Upwards", DialogLayout.Center)
+        }
+        scene.cameraFollowSprite(box)
+        box.setFlag(SpriteFlag.Ghost, true)
+        pause(1000)
     }
 })
