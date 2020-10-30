@@ -267,7 +267,7 @@ forever(function () {
     if (box.overlapsWith(blueButton)) {
         game.showLongText("Orientation: " + orientation, DialogLayout.Center)
     }
-    if (box.x == 75) {
+    if (objectMaterial == "Porcelain") {
         box.setVelocity(0, 10)
     }
 })
